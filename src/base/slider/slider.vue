@@ -49,10 +49,18 @@
           this._play()
         }
       }, 20)
+      //窗口resize的时候 重新获取宽度
+      window.addEventListener('resize',()=>{
+        if(!this.slider){ //slider还未初始化的时候
+          return
+        }
+        this._setSliderWidth(true)
+        this.slider.refresh()
+      })
     },
     methods: {
       //slider宽度
-      _setSliderWidth() {
+      _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
 
         let width = 0;
@@ -64,7 +72,7 @@
           child.style.width = sliderWidth +'px'
           width += sliderWidth
         }
-        if(this.loop){
+        if(this.loop && !isResize){
           width += 2 * sliderWidth
         }
         this.$refs.sliderGroup.style.width = width+ 'px'
@@ -79,7 +87,7 @@
           snapLoop: this.loop, //无缝循环轮播
           snapThreshold: 0.3, //手指滑动页面可切换的阔值，大于这个值可以滑动下一页
           snapSpeed: 400, //轮播切换的动画时间
-          click: true
+          // click: true  跟fastclick冲突
 
         })
         //在滑动一张图片结束的时候
@@ -114,7 +122,7 @@
 </script>
 <style scoped>
   .slider {
-    height: 1px;
+    /* height: 1px; */
     /* position: relative; */
   }
 
@@ -144,8 +152,7 @@
     position: absolute;
     right: 0;
     left: 0;
-    /* bottom: 12px; */
-    top: 217px;
+    bottom: 12px;
     text-align: center;
     font-size: 0;
   }

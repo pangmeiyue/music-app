@@ -1,7 +1,7 @@
 <template>
   <div class="recommend">
     <div class="recommend-content">
-      <div class="slider-wrapper">
+      <div v-if="recomments.length" class="slider-wrapper">
         <slider>
 					<div :key="key" v-for="(item,key) in recomments">
 						<a :href="item.linkUrl">
@@ -12,7 +12,7 @@
 
       </div>
     </div>
-    热门歌单推荐
+    <!-- 热门歌单推荐 -->
   </div>
 </template>
 <script>
@@ -32,14 +32,14 @@
       this._getRecommend()
     },
     mounted() {
-
+      // console.log('qq',this.props)
     },
     methods: {
       _getRecommend() {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
 						this.recomments = res.data.slider
-						console.log(this.recomments)
+						// console.log(this.recomments)
           }
         })
       }
